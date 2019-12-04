@@ -54,6 +54,8 @@ Thr10=Thresholding(ip_ex,Thr9)
 Thr11=Thresholding(ip_ex,Thr10)
 Thr12=Thresholding(ip_ex,Thr11)
 
+# need help above with a recurrence
+
 cv.imshow("omega 1 image",omega1)
 cv.imshow("omega 2 image",omega2)
 
