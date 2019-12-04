@@ -35,11 +35,11 @@ def Thresholding(ip_ex,OptmlThr=0):
         OptmlThr=((mean1/count1)+(mean2/count2))/2
         return OptmlThr
 
+OldThr=OptmlThr
+NewThr=Thresholding(ip_ex,OptmlThr)
 
-Thr=Thresholding(ip_ex,OptmlThr)
-
-#while(Thr-OptmlThr==0.1):
-#    Thr=Thresholding(ip_ex,Thr)
+while(NewThr-OldThr>=0.1):
+     NewThr=Thresholding(ip_ex,OldThr)
     
 Thr1=Thresholding(ip_ex,Thr)
 Thr2=Thresholding(ip_ex,Thr1)
