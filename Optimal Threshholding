@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 
-ip_ex=cv.imread(r"C:\Users\Exam\Desktop\davinci.png",0)
+ip_ex=cv.imread(r"davinci.png",0)
 
 w=ip_ex.shape[0]
 h=ip_ex.shape[1]
