@@ -40,6 +40,9 @@ NewThr=Thresholding(ip_ex,OptmlThr)
 
 while(NewThr-OldThr>=0.1):
      NewThr=Thresholding(ip_ex,OldThr)
+     Temp=OldThr
+     OldThr=NewThr
+
     
 Thr1=Thresholding(ip_ex,Thr)
 Thr2=Thresholding(ip_ex,Thr1)
