@@ -1,6 +1,7 @@
 import cv2 as cv
 import numpy as np
 
+'''Define a Cross structuring Element'''
 se=np.array(([0,1,0],[1,1,1],[0,1,0]),dtype="uint8")
 se=se*255
 
