@@ -38,27 +38,17 @@ def Thresholding(ip_ex,OptmlThr=0):
 OldThr=OptmlThr
 NewThr=Thresholding(ip_ex,OptmlThr)
 
-while(NewThr-OldThr>=0.1):
-     NewThr=Thresholding(ip_ex,OldThr)
-     Temp=OldThr
-     OldThr=NewThr
+Thr=[]
 
+while(abs(NewThr-OldThr) >= 0.1):
+    OldThr=NewThr
+    NewThr=Thresholding(ip_ex,NewThr)
+    Thr.append(NewThr)
+    #print("NewThr",NewThr)
     
-Thr1=Thresholding(ip_ex,Thr)
-Thr2=Thresholding(ip_ex,Thr1)
-Thr3=Thresholding(ip_ex,Thr2)
-Thr4=Thresholding(ip_ex,Thr3)
-Thr5=Thresholding(ip_ex,Thr4)
-Thr6=Thresholding(ip_ex,Thr5)
-Thr7=Thresholding(ip_ex,Thr6)
-Thr8=Thresholding(ip_ex,Thr7)
-Thr9=Thresholding(ip_ex,Thr8)
-Thr10=Thresholding(ip_ex,Thr9)
-Thr11=Thresholding(ip_ex,Thr10)
-Thr12=Thresholding(ip_ex,Thr11)
-
-# need help above with a recurrence
-
+for x in range (len(Thr)):
+    print(Thr[x],end="\t")
+ 
 cv.imshow("omega 1 image",omega1)
 cv.imshow("omega 2 image",omega2)
 
@@ -66,7 +56,7 @@ Thr_ex=np.zeros((ip_ex.shape[0],ip_ex.shape[1],1),np.uint8)
 
 for x in range (ip_ex.shape[0]):
     for y in range (ip_ex.shape[1]):
-        if (ip_ex[x,y]<=Thr1):
+        if (ip_ex[x,y]<=NewThr):
             Thr_ex[x,y] = 0
         else:
              Thr_ex[x,y] = 255
