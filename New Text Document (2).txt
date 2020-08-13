@@ -1,0 +1,47 @@
+<asp:TemplateField>
+                                                                             <EditItemTemplate>
+                                                                                <asp:LinkButton ID="lbtnUpdate" runat="server" CommandName="Update" CommandArgument='<%#Eval("ServiceID")%>'>Update</asp:LinkButton>
+                                                                                 &nbsp;<asp:LinkButton ID="lbtnCancel" runat="server" CommandName="Cancel" CommandArgument='<%#Eval("ServiceID") %>'>Cancel</asp:LinkButton>
+                                                                             </EditItemTemplate>
+                                                                             <ItemTemplate>
+                                                                                <asp:ImageButton ID="EditServiceButton" runat="server" ImageUrl="~/App_Themes/Default/images/Edit_ItineneraryDescription.png" CommandName="Edit" CommandArgument='<%#Eval("ServiceId") + ";" + Eval("ServiceLongName") + ";" + Eval("StatusId") %>'/>
+                                                                             </ItemTemplate>
+                                                                      </asp:TemplateField>
+
+
+
+
+<asp:TemplateField>
+<ItemTemplate>
+<asp:Button ID="btnSubmit" runat="server" Text ="update" CommandName="Update" CommandArgument='<%#Eval("ServiceID") + ";" + Eval("ServiceTypeName") + ";" + Eval("StatusID") %>' />
+<asp:ImageButton ID="EditServiceButton" runat="server" ImageUrl="~/App_Themes/Default/images/Edit_ItineneraryDescription.png" CommandName="Edit" CommandArgument='<%#Eval("ServiceID") + ";" + Eval("ServiceTypeName") + ";" + Eval("StatusID") %>'/>
+</ItemTemplate>
+</asp:TemplateField>
+
+
+
+ protected void grdSearchService_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+        grdSearchService.EditIndex = e.NewEditIndex;
+        ServiceSearchDetails();
+    }
+    protected void grdSearchService_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+        int ServiceID = Convert.ToInt32(grdSearchService.DataKeys[e.RowIndex].Value.ToString());
+        string ServiceName = ((TextBox)grdSearchService.Rows[e.RowIndex].Cells[2].Controls[0]).Text.Trim();
+
+        var request = new UpdateServiceNameRequestMC();
+
+        request.ServiceDetailsRequest = new UpdateServiceNameRequestDC();
+
+        request.ServiceDetailsRequest.ServiceID = ServiceID;
+        request.ServiceDetailsRequest.ServiceName = ServiceName;
+
+        ServiceProxyManager.ProxyClasses.Services.UpdateServiceNameResponseMC objResponse = new ServiceProxyManager.ProxyClasses.Services.UpdateServiceNameResponseMC();
+
+        ServiceProxyManager.Factory.Services.ServiceFactory objFactory = new ServiceProxyManager.Factory.Services.ServiceFactory();
+
+        objResponse = objFactory.UpdateServiceNameDetails(request);
+
+        var response = objResponse.ServiceDetailsResponse.StatusID;
+    }

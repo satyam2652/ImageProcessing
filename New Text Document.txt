@@ -1,0 +1,247 @@
+<%@ Page Title="Travel Studio Browser - Service Search" Language="C#" MasterPageFile="~/Masters/TravelStudio.master"
+    AutoEventWireup="true" CodeFile="ServiceSearch_Training.aspx.cs" Inherits="Pages_Services_ServiceSearch"
+    ValidateRequest="false" EnableEventValidation="false" %>
+
+<%@ Register Namespace="ODLControls" TagPrefix="rwg" %>
+<%@ Register Src="~/User Controls/ODLServiceTypeSearchAutoComplete.ascx" TagName="ODLServiceTypeSearch"
+    TagPrefix="ODLServiceTypeSearch" %>
+<%@ Register Src="~/User Controls/ODLServiceTypeSearchAutoComplete_trainee.ascx" TagPrefix="ODLServiceTypeSearch" TagName="ODLServiceTypeSearchAutoComplete_trainee" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+
+    <script src="../../Scripts/TSV2Home.js" type="text/javascript"></script>
+
+    <script src="../../Scripts/ODLServiceTypeSearchAutoComplete.js" type="text/javascript"></script>
+
+    <script type="text/javascript" src="../../Scripts/jquery-ui-1.8.21.custom.min.js"></script>
+
+    <asp:ScriptManager ID="NewScript" runat="server" EnablePageMethods="true" ScriptMode="Release"
+        EnablePartialRendering="true" EnableScriptGlobalization="true" EnableScriptLocalization="true">
+        <Scripts>
+            <asp:ScriptReference Path="~/Scripts/ServiceCopy.js" />
+            <asp:ScriptReference Path="~/Scripts/ServiceSearch.js" />
+        </Scripts>
+    </asp:ScriptManager>
+    <div class="stickyhead_placeholder" style="margin-top: 36px;">
+    </div>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
+        <tr>
+            <td width="21%" id="tdServiceSearchData">
+                <div style="margin: 0 1%; height: 25px;" class="white_header_txt tsSkinBgcolor">
+                    <asp:HiddenField ID="HdnCalledFromMandatory" runat="server" Value="False" EnableViewState="true" />
+                    <asp:Label ID="lblServiceSearch" Font-Bold="true" runat="server" Text="Service Search"
+                        CssClass="label"></asp:Label>
+                </div>
+            </td>
+            <td id="tdServiceSearchResults" runat="server">
+                <div style="margin: 0 1%; height: 25px;" class="white_header_txt tsSkinBgcolor" id="divheader">
+                    <img id="imgHideSearch" src="../../App_Themes/Default/images/HideSearch.png" alt="" title="Hide Search" class="icon-size" onclick='HideSearchPanel()' />
+                    <img id="imgShowSearch" src="../../App_Themes/Default/images/ShowSearch.png" alt="" title="Show Search" class="icon-size" onclick='ShowSearchPanel()' />
+                    <asp:Label ID="lblServiceSearchResults" Font-Bold="true" runat="server" Text="Service Search Results"></asp:Label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top; width: 21%" id="tdServiceSearch">
+                <div id="divtdServiceSearch" class="adjectmargin" style="padding: 1px; height: 80%; position: absolute; margin-left: 0.2%; width: 20.1%; overflow-y: auto; overflow-x: hidden;">
+                    <div style="width: 100%;">
+                        <div>
+                            <div style="padding: 6px;">
+                                <div class="sticky_head_leftpane">
+                                    <img id="imgBasicSearch" src="../../App_Themes/Default/images/colapse.png" alt=""
+                                        width="11" height="11" />
+                                    <asp:Label ID="lblBasicSearch" runat="server" Text="Basic Search" />
+                                </div>
+                                <div id="divBasicSearch" style="display: block;">
+                                    <div class="respn_table_holder_leftpane">
+                                        <%--BOC satyam (200)--%>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <asp:Label ID="lblServiceID" runat="server" Text="Service ID"></asp:Label>
+                                                </td>
+                                                <td>
+                                                    <asp:TextBox ID="txtServiceID" runat="server"></asp:TextBox>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    
+                                                    <asp:Label ID="lblServiceType" runat="server" Text="Service Type"></asp:Label>
+                                                </td>
+                                                <td>
+                                                    <div class="respn_table_holder_div" style="width:180px">
+                                                        <asp:UpdatePanel ID="updpnlServiceSearch" UpdateMode="Conditional" runat="server">
+                                                            <ContentTemplate>
+                                                                <ODLServiceTypeSearch:ODLServiceTypeSearch ID="ODLServiceTypeSearc1" runat="server" strCssClass="ODLDropDown_180" />
+                                                            </ContentTemplate>
+                                                        </asp:UpdatePanel>
+                                                     </div>
+                                                    <asp:TextBox ID="txtServiceType" runat="server"></asp:TextBox>
+                                                </td>
+                                            </tr>
+                                             <tr>
+                                                <td>
+                                                    <asp:Label ID="lblServiceName" runat="server" Text="Service Name"></asp:Label>
+                                                </td>
+                                                <td>
+                                                    <asp:TextBox ID="txtServiceName" runat="server"></asp:TextBox>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <%--EOC satyam (200)--%>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="sticky_bottom" id="divSearch" style="width: 20.5%; clear: both; margin-right: 79.3%;">
+                                <div class="button_holder">
+                                    <div class="btn_medium">
+                                         <%--BOC satyam (200)--%>
+                                        <asp:Button ID="btnSearchID" runat="server" Text="Search"  OnClick="btnSearchService_Click"/>
+                                         <%--EOC satyam (200)--%>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td id="tdServiceResults" style="vertical-align: top; width: 100%">
+                <div id="divService" class="adjectmargin" style="height: 78%; padding: 5px 5px 5px 5px; position: absolute; margin-left: 0.70%; width: 76.5%; display: block;">
+                    <div id="divServiceSearchResults" style="width: 100%;">
+                        <div>
+                            <asp:UpdatePanel ID="updPnlSearchService" runat="server" UpdateMode="Conditional">
+                                <Triggers>
+                                    <%--<asp:AsyncPostBackTrigger ControlID="btnSearchService" />--%>
+                                </Triggers>
+                                <ContentTemplate>
+                                    <asp:HiddenField ID="hdnWindowHeight" runat="server" />
+                                    <asp:Panel ID="pnlServiceList" runat="server">
+                                        <div style="overflow-y: auto; overflow-x: hidden; width: 100%;">
+                                            <div class="respn_table_holder" style="padding: 3px; display: block; width: 99%;">
+                                                <table style="width: 100%">
+                                                    <tr>
+                                                        <td colspan="2" style="height: 1px;"></td>
+                                                    </tr>
+                                                    <tr class="grey_th">
+                                                        <td width="82%">
+                                                            <span class="label_blue">
+                                                                <asp:Label ID="lblHeaderResult" runat="server"></asp:Label></span>
+                                                        </td>
+                                                        <td width="18%">
+                                                            <div style="float: right; padding-right: 3px;">
+                                                                <div class="respn_table_holder_div" style="white-space: nowrap;">
+                                                                    <span class="label_blue">
+                                                                        <asp:Label ID="lblHeaderResultsPage" runat="server" Text="Results per page"></asp:Label></span>
+                                                                </div>
+                                                                <div class="respn_table_holder_div" style="width: 30px;">
+                                                                    <asp:DropDownList ID="ddlHeaderResultsPage" runat="server" AutoPostBack="true" Width="50px">
+                                                                        <asp:ListItem Text="25" Value="25" Selected="True"></asp:ListItem>
+                                                                        <asp:ListItem Text="50" Value="50"></asp:ListItem>
+                                                                        <asp:ListItem Text="75" Value="75"></asp:ListItem>
+                                                                        <asp:ListItem Text="100" Value="100"></asp:ListItem>
+                                                                        <asp:ListItem Text="All" Value="All"></asp:ListItem>
+                                                                    </asp:DropDownList>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2" style="height: 1px;"></td>
+                                                    </tr>
+                                                </table>
+                                                <div id="divServiceResults" runat="server">
+                                                    <table border="0" style="min-height: 200px; width: 100%; margin-right: 1%;">
+                                                        <tr>
+                                                            <td style="vertical-align: top;">
+                                                                <asp:Panel ID="pnlSearchResultsService" runat="server" Width="100%" Height="100%">
+                                                                <%--BOC satyam (200)--%>
+                                                                <rwg:ODLGridview ID="gvSearchService" runat="server" CellPadding="4" ForeColor="#333333" GridLines="None" HorizontalAlign="Center" AutoGenerateColumns="false" DataKeyNames="ServiceID"  PageSize="4" >
+                                                                <Columns>
+                                                                    <asp:BoundField DataField="ServiceID" HeaderText="Service ID" ItemStyle-Width="150">
+                                                                        <ItemStyle Width="150px"></ItemStyle>
+                                                                    </asp:BoundField>
+                                                                    <asp:BoundField DataField="RegionName" HeaderText="Region Name" ItemStyle-Width="150">
+                                                                        <ItemStyle Width="150px"></ItemStyle>
+                                                                    </asp:BoundField>
+                                                                    <asp:BoundField DataField="ServiceTypeName" HeaderText="Service Type Name" ItemStyle-Width="150">
+                                                                        <ItemStyle Width="150px"></ItemStyle>
+                                                                    </asp:BoundField>
+                                                                    <asp:BoundField DataField="ServiceLongName" HeaderText="Service Long Name" ItemStyle-Width="150">
+                                                                        <ItemStyle Width="150px"></ItemStyle>
+                                                                    </asp:BoundField>
+                                                                    <asp:BoundField DataField="SupplierName" HeaderText="Supplier name" ItemStyle-Width="150">
+                                                                        <ItemStyle Width="150px"></ItemStyle>
+                                                                    </asp:BoundField>
+                                                                    <asp:BoundField DataField="StatusName" HeaderText="Status Name" ItemStyle-Width="150">
+                                                                        <ItemStyle Width="150px"></ItemStyle>
+                                                                    </asp:BoundField>
+                                                                     <asp:BoundField DataField="StatusID" HeaderText="Status ID" ItemStyle-Width="150">
+                                                                        <ItemStyle Width="150px"></ItemStyle>
+                                                                    </asp:BoundField>
+                                                                </Columns>
+                                                                    <PagerSettings Position="Bottom" 
+                                                                        Mode="Numeric"
+                                                                        PreviousPageText="<--"
+                                                                        NextPageText="-->" 
+                                                                        />
+                                                                </rwg:ODLGridview>
+                                                                <%--EOC satyam (200)--%>
+                                                                </asp:Panel>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+
+
+                                                <table style="width: 100%">
+                                                    <tr>
+                                                        <div id="footerdiv" class="ODLGridViewPagerStyle" runat="server" visible="false"></div>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2" style="height: 1px;"></td>
+                                                    </tr>
+                                                    <tr class="grey_th">
+                                                        <td width="80%">
+                                                            <span class="label_blue">
+                                                                <asp:Label ID="lblFooterResults" runat="server"></asp:Label></span>
+                                                        </td>
+                                                        <td width="20%">
+                                                            <div style="float: right; padding-right: 3px;">
+                                                                <span class="label_blue">
+                                                                    <div class="respn_table_holder_div" style="white-space: nowrap;">
+                                                                        <asp:Label ID="lblfooterPageResults" runat="server" Text="Results per Page"></asp:Label>
+                                                                    </div>
+                                                                </span>
+                                                                <div class="respn_table_holder_div" style="width: 30px;">
+                                                                    <asp:DropDownList ID="ddlFooterPageResults" runat="server" AutoPostBack="true" Width="50px">
+                                                                        <asp:ListItem Text="25" Value="25" Selected="True"></asp:ListItem>
+                                                                        <asp:ListItem Text="50" Value="50"></asp:ListItem>
+                                                                        <asp:ListItem Text="75" Value="75"></asp:ListItem>
+                                                                        <asp:ListItem Text="100" Value="100"></asp:ListItem>
+                                                                        <asp:ListItem Text="All" Value="All"></asp:ListItem>
+                                                                    </asp:DropDownList>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2" style="height: 1px;"></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </asp:Panel>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+</asp:Content>

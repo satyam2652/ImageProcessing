@@ -1,0 +1,34 @@
+protected void grdServiceSearch_RowCommand1(object sender, GridViewCommandEventArgs e)
+	{
+		try
+		{
+
+			if (e.CommandName == "Edit")
+			{
+				string[] arg = new string[3];
+				arg = e.CommandArgument.ToString().Split(';');
+
+				ViewState["selectedService"] = arg[0];
+				txtServiceNameEdit.Text = arg[1];
+				ddlStatusList.SelectedValue = arg[2];
+				UpdatePanel2.Update();
+				mpUpdateService.Show();
+			}
+		}
+		catch (Exception)
+		{
+			//handle error here
+		}
+	}
+
+
+
+
+
+
+<asp:ImageButton ID="EditServiceButton" runat="server" ImageUrl="~/App_Themes/Default/images/Edit_ItineneraryDescription.png" CommandName="Edit" CommandArgument='<%#Eval("ServiceId") + ";" + Eval("ServiceLongName") + ";" + Eval("StatusId") %>'/>
+
+
+
+
+https://www.sqlshack.com/debugging-stored-procedures-sql-server-management-studio-ssms/
